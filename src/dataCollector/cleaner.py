@@ -1,6 +1,7 @@
 import re
 from string import atoi
 import math
+from random import shuffle
 
 _dataset_folder = "../../Dataset/"
 
@@ -116,13 +117,30 @@ def add_to_main_dataset(dataset_folder, coming_post_file, coming_comment_file, c
     cfil.write(str(ind_key)+"\n"+str(mainn_key)+"\n"+str(anno_key))
     cfil.close()
     
-    
-    
+def remove_long_rows(annotationfilepath, outputannotationfilepath):
+    lines = open(annotationfilepath).readlines()
+    writable = []
+    linesread = set()
+    counter=0
+    for l in lines:
+        parts = l.split('\t')
+        this_sentence = parts[0]  
+        if len(this_sentence.split(' ')) <50:
+            if not this_sentence.lower() in linesread:
+                linesread.add(this_sentence.lower())
+                writable.append(  '\t'.join(parts)  )
+                counter+=1
+    import numpy as np    
+    np.random.shuffle(writable)
+    outfile = open(outputannotationfilepath, 'w')
+    outfile.writelines(writable)
+    outfile.close()
 
 def main():
-    com = "../../NewData/BeingSalmanKhan_comment_07_17_18_03.txt"
-    post= "../../NewData/BeingSalmanKhan_post_07_17_18_03.txt"
-    add_to_main_dataset(_dataset_folder, post,com )
+#     com = "../../NewData/BeingSalmanKhan_comment_07_17_18_03.txt"
+#     post= "../../NewData/BeingSalmanKhan_post_07_17_18_03.txt"
+#     add_to_main_dataset(_dataset_folder, post,com )
+    remove_long_rows("../../Dataset/annotable.dat", "../../Dataset/pranjal_annotations.dat")
 
 if __name__ == '__main__':
     main()
