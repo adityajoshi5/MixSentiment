@@ -2,6 +2,7 @@ import re
 from string import atoi
 import math
 from random import shuffle
+import random
 
 _dataset_folder = "../../Dataset/"
 
@@ -125,11 +126,19 @@ def remove_long_rows(annotationfilepath, outputannotationfilepath):
     for l in lines:
         parts = l.split('\t')
         this_sentence = parts[0]  
-        if len(this_sentence.split(' ')) <50:
+        if len(this_sentence.split(' ')) <50 and len(this_sentence.split(' '))>7:
             if not this_sentence.lower() in linesread:
                 linesread.add(this_sentence.lower())
                 writable.append(  '\t'.join(parts)  )
                 counter+=1
+        if len(this_sentence.split(' ')) <= 7:
+            randno = random.random()
+            if randno > 0.6:
+                if not this_sentence.lower() in linesread:
+                    linesread.add(this_sentence.lower())
+                    writable.append(  '\t'.join(parts)  )
+                    counter+=1
+           
     import numpy as np    
     np.random.shuffle(writable)
     outfile = open(outputannotationfilepath, 'w')
