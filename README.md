@@ -1,5 +1,2 @@
 # MixSentiment
-Ongoing Research Project
-NOTICE: This is a private repository.
-
-All rights reserved. Copyright(c) Aditya Joshi, IIIT Hyderabad, 2015
+This project formed a baseline for https://www.aclweb.org/anthology/C16-1234.pdf
